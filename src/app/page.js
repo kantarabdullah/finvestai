@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 export default function Home() {
   const [choices, setChoices] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [stocks, setStocks] = useState([])
 
   return (
     <main>
@@ -20,7 +21,7 @@ export default function Home() {
           onSubmit={async (prompt) => {
             setIsLoading(true)
 
-            const response = await fetch('/api/chat-gpt', {
+            const stock = await fetch('/api/stock', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -29,11 +30,23 @@ export default function Home() {
                 prompt,
               }),
             })
+            const stockData = await stock.json()
+            setStocks(stockData)
+
+            const chatgpt = await fetch('/api/chat-gpt', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                prompt, stockData
+              }),
+            })
 
             setIsLoading(false)
 
-            const result = await response.json()
-            setChoices(result.choices)
+            const chatgptData = await chatgpt.json()
+            setChoices(chatgptData.choices)
           }}
         />
 
