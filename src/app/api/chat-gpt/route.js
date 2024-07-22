@@ -10,7 +10,7 @@ export async function POST(request) {
 
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-4o-2024-05-13',
+    model: 'gpt-4o-mini-2024-07-18',
     messages: [
       {
         role: 'system',
