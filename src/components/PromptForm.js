@@ -1,30 +1,74 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function PromptForm({ onSubmit, isLoading }) {
   const [prompt, setPrompt] = useState('')
+  const [focus, setFocus] = useState(false)
+  const [error, setError] = useState(false)
+  const inputRef = useRef(null)
+
+  const stocks = ['NVDA', 'TSLA', 'AAPL', 'AMZN', 'MSFT', 'META']
+
+  const filterStock = () => {
+    const filter = stocks.filter((item) =>
+      item.toUpperCase().includes(prompt.toUpperCase())
+    )
+    return filter
+  }
+  const containsStock = () => {
+    const contains = stocks.includes(prompt.toUpperCase())
+    return contains
+  }
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        if (prompt === '') {
+
+        if (!containsStock()) {
+          setError(true)
           return
         }
+
+        setError(false)
         onSubmit(prompt)
         setPrompt('')
       }}
-      className="flex flex-row items-center justify-center gap-4"
+      className="flex flex-col items-center justify-center"
     >
       <label
         for="search"
-        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+        className="mb-2 text-sm font-medium sr-only text-white"
       >
         Search
       </label>
-      <div class="relative">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+
+      {error && (
+        <div
+          className="flex items-center p-3 mb-4 text-sm border rounded-lg bg-gray-800 text-red-400 border-red-800"
+          role="alert"
+        >
           <svg
-            class="w-4 h-4 text-gray-500 dark:text-gray-400"
+            className="flex-shrink-0 inline w-4 h-4 me-3"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+          </svg>
+          <span className="sr-only">Info</span>
+          <div>
+            <span className="font-medium">
+              Change the symbol and try again.
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="relative w-full lg:w-auto">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg
+            className="w-5 h-5 text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -39,12 +83,25 @@ export default function PromptForm({ onSubmit, isLoading }) {
             />
           </svg>
         </div>
+
         <input
+          onFocus={(e) => {
+            setFocus(true)
+          }}
+          onBlur={(e) => {
+            if (e.relatedTarget && e.relatedTarget.id === 'preventBlurDiv') {
+              e.preventDefault()
+              return
+            }
+            setFocus(false)
+          }}
           type="search"
           id="search"
+          disabled={isLoading}
           value={prompt}
-          class="block w-96 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          /* placeholder="Search" */
+          className={`${filterStock().length !== 0 ? 'focus:border-b-gray-700 focus:rounded-b-none' : null} shadow-2xl shadow-violet-500/40 block w-full lg:w-[48rem] p-4 ps-12 focus:outline-none border rounded-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white`}
+          placeholder="Enter a stock symbol"
+          autocomplete="off"
           onChange={(e) => {
             setPrompt(e.target.value)
           }}
@@ -54,12 +111,12 @@ export default function PromptForm({ onSubmit, isLoading }) {
         <button
           type="submit"
           disabled={isLoading}
-          class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-24 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="text-white absolute end-[7px] bottom-[7px] bg-violet-500 focus:ring-4 focus:outline-none focus:ring-violet-600 hover:bg-violet-400 duration-200 font-medium rounded-2xl w-24 py-2.5"
         >
           {isLoading ? (
             <svg
               aria-hidden="true"
-              class="w-5 h-5 text-center m-auto text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+              className="w-5 h-5 text-center m-auto animate-spin text-gray-600 fill-violet-500"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -78,6 +135,48 @@ export default function PromptForm({ onSubmit, isLoading }) {
           )}
         </button>
       </div>
+
+      {focus && filterStock().length ? (
+        <div
+          id="preventBlurDiv"
+          onMouseDown={(e) => {
+            e.preventDefault()
+            if (inputRef.current) {
+              inputRef.current.focus()
+            }
+          }}
+          className="flex justify-center relative w-full lg:w-auto"
+        >
+          <ul className="flex absolute font-medium justify-center text-sm flex-col w-full lg:w-[48rem] border border-t-0 rounded-b-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white">
+            {filterStock().map((stock, index) => (
+              <li
+                onClick={(e) => {
+                  setPrompt(stock)
+                }}
+                key={index}
+                className="last:rounded-b-2xl flex flex-row items-center gap-2 py-2 px-4 hover:bg-gray-600 cursor-pointer"
+              >
+                <svg
+                  className="w-3 h-3 text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+                <p>{stock}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
     </form>
   )
 }
