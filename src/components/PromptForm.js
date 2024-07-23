@@ -1,12 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 
 export default function PromptForm({ onSubmit, isLoading }) {
+  const [stocks, setStocks] = useState([])
   const [prompt, setPrompt] = useState('')
   const [focus, setFocus] = useState(false)
   const [error, setError] = useState(false)
   const inputRef = useRef(null)
 
-  const stocks = ['NVDA', 'TSLA', 'AAPL', 'AMZN', 'MSFT', 'META']
+  const trends = ['NVDA', 'TSLA', 'AAPL', 'AMZN', 'MSFT', 'META']
+
+  useEffect(() => {
+    fetch('/stocks.json')
+      .then((response) => response.json())
+      .then((data) => {
+        const stock = data.data.map((d) => {
+          return d.symbol
+        })
+        setStocks(stock)
+      })
+  }, [])
 
   const filterStock = () => {
     const filter = stocks.filter((item) =>
@@ -147,34 +159,72 @@ export default function PromptForm({ onSubmit, isLoading }) {
           }}
           className="flex justify-center relative w-full lg:w-auto"
         >
-          <ul className="flex absolute font-medium justify-center text-sm flex-col w-full lg:w-[48rem] border border-t-0 rounded-b-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white">
-            {filterStock().map((stock, index) => (
-              <li
-                onClick={(e) => {
-                  setPrompt(stock)
-                }}
-                key={index}
-                className="last:rounded-b-2xl flex flex-row items-center gap-2 py-2 px-4 hover:bg-gray-600 cursor-pointer"
-              >
-                <svg
-                  className="w-3 h-3 text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
+          {prompt.length > 1 ? (
+            <ul className="flex absolute overflow-y-scroll scroll-smooth bg-scroll max-h-60 font-medium justify-start text-sm flex-col w-full lg:w-[48rem] border border-t-0 rounded-b-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white">
+              {filterStock().map((stock, index) => (
+                <li
+                  onClick={(e) => {
+                    setPrompt(stock)
+                  }}
+                  key={index}
+                  className="last:rounded-b-2xl flex flex-row items-center gap-2 py-2 px-4 hover:bg-gray-600 cursor-pointer"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-                <p>{stock}</p>
-              </li>
-            ))}
-          </ul>
+                  <svg
+                    className="w-3 h-3 text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                  <p>{stock}</p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <ul className="flex absolute overflow-y-scroll scroll-smooth bg-scroll max-h-60 font-medium justify-center text-sm flex-col w-full lg:w-[48rem] border border-t-0 rounded-b-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white">
+              {trends.map((trend, index) => (
+                <li
+                  onClick={(e) => {
+                    setPrompt(trend)
+                  }}
+                  key={index}
+                  className="last:rounded-b-2xl flex flex-row items-center gap-2 py-2 px-4 hover:bg-gray-600 cursor-pointer"
+                >
+                  <svg
+                    className="w-4 h-4 text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M3 17.5l6-6 4 4L21.5 7"
+                    ></path>
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                      d="M15.5 7h6v6"
+                    ></path>
+                  </svg>
+                  <p>{trend}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       ) : null}
     </form>
