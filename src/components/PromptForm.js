@@ -1,15 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
+import Cookies from 'js-cookie'
 
 export default function PromptForm({ onSubmit, isLoading }) {
   const [stocks, setStocks] = useState([])
   const [prompt, setPrompt] = useState('')
   const [focus, setFocus] = useState(false)
   const [error, setError] = useState(false)
+  const [searchCount, setSearchCount] = useState(0)
   const inputRef = useRef(null)
 
   const trends = ['NVDA', 'TSLA', 'AAPL', 'AMZN', 'MSFT', 'META']
+  const SEARCH_LIMIT = 10
+  const COOKIE_NAME = 'searchCount'
 
   useEffect(() => {
+    const count = Cookies.get(COOKIE_NAME)
+    setSearchCount(count ? parseInt(count) : 0)
+
     fetch('/stocks.json')
       .then((response) => response.json())
       .then((data) => {
@@ -36,10 +43,14 @@ export default function PromptForm({ onSubmit, isLoading }) {
       onSubmit={(e) => {
         e.preventDefault()
 
-        if (!containsStock()) {
+        if (!containsStock() || searchCount >= SEARCH_LIMIT) {
           setError(true)
           return
         }
+
+        const newSearchCount = searchCount + 1
+        Cookies.set(COOKIE_NAME, newSearchCount, { expires: 1 })
+        setSearchCount(newSearchCount)
 
         setError(false)
         onSubmit(prompt)
