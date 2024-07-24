@@ -10,8 +10,8 @@ export default function Home() {
   const [stocks, setStocks] = useState([])
 
   return (
-    <main>
-      <div className="p-8">
+    <main className="bg-black min-h-screen flex flex-col items-center justify-center">
+      <div className="p-8 w-3/4 bg-gray-800 rounded-lg shadow-md">
         <h1 className="text-center text-4xl font-bold my-8 text-white">
           Stock Analysis
         </h1>
@@ -52,9 +52,9 @@ export default function Home() {
 
         {choices.map((choice) => {
           return (
-            <p className="text-white mt-8 w-full" key={choice.index}>
-              <ReactMarkdown>{choice.message.content}</ReactMarkdown>
-            </p>
+            <div className="text-white mt-8 w-full" key={choice.index}>
+              <div dangerouslySetInnerHTML={{ __html: choice.message.content }} />
+            </div>
           )
         })}
       </div>
