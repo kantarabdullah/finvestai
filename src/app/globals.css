@@ -2,6 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
+.analysis {
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+h1 {
+  color: #00ff00;
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+.positive-news-header {
+  color: #00ff00;
+  font-size: 3em;
+  margin-top: 1.5em;
+}
+
+.negative-news-header {
+  color: #ff0000;
+  font-size: 3em;
+  margin-top: 1.5em;
+}
+
+.technical-analysis-header,
+.rating-header {
+  color: #ff0000;
+  font-size: 5em;
+  margin-top: 1.5em;
+}
+
+.news {
+  color: #388dce;
+}
+
+.resource {
+  color: #cccccc;
+}
+
 body {
   background-color: #18181b;
 
