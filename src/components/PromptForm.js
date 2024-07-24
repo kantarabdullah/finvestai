@@ -10,7 +10,7 @@ export default function PromptForm({ onSubmit, isLoading }) {
   const inputRef = useRef(null)
 
   const trends = ['NVDA', 'TSLA', 'AAPL', 'AMZN', 'MSFT', 'META']
-  const SEARCH_LIMIT = 10
+  const SEARCH_LIMIT = 150
   const COOKIE_NAME = 'searchCount'
 
   useEffect(() => {
