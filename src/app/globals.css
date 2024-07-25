@@ -8,37 +8,42 @@
 }
 
 h1 {
-  color: #00ff00;
+  color: #ffffff;
   font-size: 2.5em;
   margin-bottom: 1em;
 }
 
 .positive-news-header {
-  color: #00ff00;
-  font-size: 3em;
+  color: #7cc47c;
+  font-size: 2.5em;
   margin-top: 1.5em;
 }
 
 .negative-news-header {
-  color: #ff0000;
-  font-size: 3em;
+  color: #ed5555;
+  font-size: 2.5em;
   margin-top: 1.5em;
 }
 
 .technical-analysis-header,
 .rating-header {
-  color: #ff0000;
-  font-size: 5em;
+  color: #ffffff;
+  font-size: 2.5em;
   margin-top: 1.5em;
 }
 
 .news {
-  color: #388dce;
+  color: #ffffff;
 }
 
 .resource {
-  color: #cccccc;
+  color: #ffffff;
 }
+
+.rating {
+  color: #ffffff;
+}
+
 
 body {
   background-color: #18181b;
