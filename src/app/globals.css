@@ -2,49 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.analysis {
-  font-family: Arial, sans-serif;
-  color: white;
-}
-
-h1 {
-  color: #ffffff;
-  font-size: 2.5em;
-  margin-bottom: 1em;
-}
-
-.positive-news-header {
-  color: #7cc47c;
-  font-size: 2.5em;
-  margin-top: 1.5em;
-}
-
-.negative-news-header {
-  color: #ed5555;
-  font-size: 2.5em;
-  margin-top: 1.5em;
-}
-
-.technical-analysis-header,
-.rating-header {
-  color: #ffffff;
-  font-size: 2.5em;
-  margin-top: 1.5em;
-}
-
-.news {
-  color: #ffffff;
-}
-
-.resource {
-  color: #ffffff;
-}
-
-.rating {
-  color: #ffffff;
-}
-
-
 body {
   background-color: #18181b;
 

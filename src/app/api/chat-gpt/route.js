@@ -30,27 +30,27 @@ export async function POST(request) {
         
         
         Format:
-        <div class="analysis">
-          <h1>Stock Analysis for ${params.prompt}</h1>
+        <div class="text-white border bg-violet-500/25 border-violet-500 rounded-2xl p-8 shadow-2xl shadow-violet-500/40">
+          <h1 class="text-3xl">Stock Analysis for ${params.prompt}</h1>
           
-          <h2 class="positive-news-header">Positive News</h2>
+          <h2 class="mt-8 mb-2 text-green-500 text-2xl">Positive News</h2>
           <ul class="positive-news">
             <!-- Insert positive news items here -->
-            <li><span class="news">News: [Summary of Positive News for ${params.prompt}]</span><br/>
-            <span class="resource">News Resource: [Resource]</span></li>
+            <li class="mb-1"><span class="news">News: [Summary of Positive News for ${params.prompt}]</span><br/>
+            <span class="text-slate-500 font-bold text-sm">Resource: [Resource]</span></li>
           </ul>
           
-          <h2 class="negative-news-header">Negative News</h2>
+          <h2 class="mt-4 mb-2 text-red-500 text-2xl">Negative News</h2>
           <ul class="negative-news">
             <!-- Insert negative news items here -->
-            <li><span class="news">News: [Summary of Negative News for ${params.prompt}]</span><br/>
-            <span class="resource">News Resource: [Resource]</span></li>
+            <li class="mb-1"><span class="news">News: [Summary of Negative News for ${params.prompt}]</span><br/>
+            <span class="text-slate-500 font-bold text-sm">Resource: [Resource]</span></li>
           </ul>
           
-          <h2 class="technical-analysis-header">Technical Analysis</h2>
-          <p class="technical-analysis">Technical Analysis: [Technical analysis with ${params.stockData} write like a financial advisor]</p>
+          <h2 class="mt-4 mb-2 text-2xl">Technical Analysis</h2>
+          <p class="technical-analysis">[Technical analysis with ${params.stockData} write like a financial advisor]</p>
 
-          <h2 class="rating-header">Rating</h2>
+          <h2 class="mt-4 mb-2 text-2xl">Rating</h2>
           <p class="rating">[Short term rating for ${params.prompt} is x/10]</p>
         </div>
         `,
