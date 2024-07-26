@@ -88,7 +88,7 @@ export default function PromptForm({ onSubmit, isLoading }) {
         </div>
       )}
 
-      <div className="relative w-full lg:w-auto">
+      <div className="relative w-full lg:w-auto z-50">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
           <svg
             className="w-5 h-5 text-gray-400"
@@ -168,7 +168,7 @@ export default function PromptForm({ onSubmit, isLoading }) {
               inputRef.current.focus()
             }
           }}
-          className="flex justify-center relative w-full lg:w-auto"
+          className="flex justify-center relative w-full lg:w-auto z-50"
         >
           {prompt.length > 1 ? (
             <ul className="flex absolute overflow-y-scroll scroll-smooth bg-scroll max-h-60 font-medium justify-start text-sm flex-col w-full lg:w-[48rem] border border-t-0 rounded-b-2xl bg-gray-700 border-violet-500 placeholder-gray-400 text-white">

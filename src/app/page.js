@@ -2,10 +2,13 @@
 
 import { useState } from 'react'
 import PromptForm from '@/components/PromptForm'
+import TVWidget from '@/components/TradingViewWidget'
 
 export default function Home() {
   const [choices, setChoices] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [tvSymbol, setTvSymbol] = useState('AAPL')
+  const [tvBlur, setTvBlur] = useState(true)
 
   return (
     <main>
@@ -43,6 +46,9 @@ export default function Home() {
 
             setIsLoading(false)
 
+            setTvSymbol(prompt)
+            setTvBlur(false)
+
             const chatgptData = await chatgpt.json()
             setChoices(chatgptData.choices)
           }}
@@ -57,6 +63,10 @@ export default function Home() {
             </div>
           )
         })}
+
+        <div className="mt-8 h-[610px]">
+          <TVWidget symbol={tvSymbol} blur={tvBlur} />
+        </div>
       </div>
     </main>
   )

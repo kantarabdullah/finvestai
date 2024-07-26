@@ -30,7 +30,7 @@ export async function POST(request) {
         
         
         Format:
-        <div class="text-white border bg-violet-500/25 border-violet-500 rounded-2xl p-8 shadow-2xl shadow-violet-500/40">
+        <div class="text-white border bg-violet-500/25 border-violet-500 p-8">
           <h1 class="text-3xl">Stock Analysis for ${params.prompt}</h1>
           
           <h2 class="mt-8 mb-2 text-green-500 text-2xl">Positive News</h2>
