@@ -14,7 +14,7 @@ export default function Home() {
     <main>
       <div className="p-8">
         <h1 className="text-center text-4xl font-bold my-8 text-white">
-          Stock Analysis
+          Stock Analysis with AI
         </h1>
 
         <PromptForm
